@@ -59,12 +59,12 @@ func main() {
 	for k, v := range session.Capabilities {
 		fmt.Printf("capability: key %s, value %s\n", k, v)
 	}
-	request := netconf.Get{Filter: &netconf.Filter{Type: "xpath", Select: get}}
+	request := netconf.GetConfig{Source: netconf.Running}
 	response := netconf.RPCReplyData{}
 	for len(get) > 0 {
 		//fmt.Printf("request:\n%v\n\n", *request.Filter)
 		if err := session.Call(&request, &response); err != nil {
-			log.Printf("error: %s\n",err.Error())
+			log.Printf("error: %s\n", err.Error())
 		}
 		fmt.Printf("response:%s\n\n", string(response.Data.InnerXML))
 		time.Sleep(time.Duration(period) * time.Second)
