@@ -62,11 +62,11 @@ func main() {
 	request := netconf.Get{Filter: &netconf.Filter{Type: "subtree", Select: get}}
 	response := netconf.RPCReplyData{}
 	for len(get) > 0 {
-		fmt.Printf("request:\n%v\n\n", *request.Filter)
+		//fmt.Printf("request:\n%v\n\n", *request.Filter)
 		if err := session.Call(&request, &response); err != nil {
 			log.Printf("error: %s\n",err.Error())
 		}
-		fmt.Printf("response:%v\n\n", response)
+		fmt.Printf("response:%s\n\n", string(response.Data.InnerXML))
 		time.Sleep(time.Duration(period) * time.Second)
 	}
 
