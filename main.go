@@ -22,7 +22,7 @@ func main() {
 	flag.StringVar(&address, "address", "172.20.20.2:830", "Address")
 	flag.StringVar(&username, "user", "admin", "Username")
 	flag.StringVar(&password, "pass", "admin", "Password")
-	flag.StringVar(&get, "get", "/port", "Get")
+	flag.StringVar(&get, "get", "/configure/port", "Get")
 	flag.IntVar(&period, "period", 3, "Period")
 	flag.Parse()
 
@@ -59,7 +59,7 @@ func main() {
 	for k, v := range session.Capabilities {
 		fmt.Printf("capability: key %s, value %s\n", k, v)
 	}
-	request := netconf.Get{Filter: &netconf.Filter{Type: "subtree", Select: get}}
+	request := netconf.Get{Filter: &netconf.Filter{Type: "xpath", Select: get}}
 	response := netconf.RPCReplyData{}
 	for len(get) > 0 {
 		//fmt.Printf("request:\n%v\n\n", *request.Filter)
