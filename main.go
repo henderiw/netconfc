@@ -55,12 +55,15 @@ func main() {
 		os.Exit(3)
 	}
 
-	fmt.Printf("session open: %v\n", session.SessionID)
+	fmt.Printf("session open: id: %d\n", session.SessionID)
+	for k, v := range session.Capabilities {
+		fmt.Printf("capability: key %s, value %s\n", k, v)
+	}
 	request := netconf.Get{Filter: &netconf.Filter{Type: "xpath", Select: get}}
 	response := netconf.RPCReplyData{}
 	for len(get) > 0 {
 		if err := session.Call(&request, &response); err != nil {
-			log.Println(err)
+			log.Println(err.Error())
 		}
 		fmt.Printf("%v\n\n", request)
 
