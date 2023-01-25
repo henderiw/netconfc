@@ -46,24 +46,27 @@ func main() {
 		os.Exit(2)
 	}
 
+	fmt.Printf("client connected\n")
+
 	session, err := client.NewSession()
 	if err != nil {
 		client.Close()
 		log.Println(err.Error())
 		os.Exit(3)
 	}
+
+	fmt.Printf("session open: %v\n", session.SessionID)
 	request := netconf.Get{Filter: &netconf.Filter{Type: "xpath", Select: get}}
 	response := netconf.RPCReplyData{}
 	for len(get) > 0 {
 		if err := session.Call(&request, &response); err != nil {
 			log.Println(err)
 		}
+		fmt.Printf("%v\n\n", request)
 
-		fmt.Printf("%s\n\n", response.Data.InnerXML)
+		fmt.Printf("%v\n\n", response)
 
-		select {
-		case <-time.After(time.Duration(period) * time.Second):
-		}
+		time.Sleep(time.Duration(period) * time.Second)
 	}
 
 	session.Close()
