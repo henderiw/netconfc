@@ -59,7 +59,7 @@ func main() {
 	for k, v := range session.Capabilities {
 		fmt.Printf("capability: key %s, value %s\n", k, v)
 	}
-	request := netconf.Get{Filter: &netconf.Filter{Type: "xpath", Select: get}}
+	request := netconf.Get{Filter: &netconf.Filter{Type: "subtree", Select: get}}
 	response := netconf.RPCReplyData{}
 	for len(get) > 0 {
 		if err := session.Call(&request, &response); err != nil {
